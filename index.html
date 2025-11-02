@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Digital del Restaurante</title>
+    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de la fuente Inter --><style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Fondo principal: Negro */
+            background-color: #000000; 
+            color: #ffffff; /* Texto general en blanco */
+        }
+        .section-divider {
+            height: 1px;
+            /* Divisor en Gris Claro */
+            background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(229, 57, 53, 0.5), rgba(255,255,255,0.1));
+        }
+        /* Estilos para la barra de navegación que sea horizontal y scrolleable en móvil */
+        .nav-link {
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .item-line {
+            display: flex;
+            align-items: flex-start; /* Alinea los elementos al inicio de la línea */
+            padding: 1.5rem 0;
+            /* Borde inferior en gris muy oscuro para contraste sutil */
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            gap: 1rem; /* Espacio entre el texto y la imagen */
+        }
+        .item-line:last-child {
+            border-bottom: none;
+        }
+        /* Asegura que el contenedor de texto ocupe el espacio restante y no se encoja */
+        .item-line .text-content {
+            flex-grow: 1;
+            flex-shrink: 1; 
+            min-width: 0; 
+        }
+        /* Asegura que la imagen mantenga su tamaño fijo y no se encoja */
+        .item-line .image-container {
+            flex-shrink: 0; 
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-100">
+
+    <div id="app" class="min-h-screen">
+        <!-- El encabezado fijo se ha eliminado, y la navegación ahora se fija en la parte superior (top-0) -->
+
+        <!-- Navegación Ancla Fija -->
+        <nav class="bg-gray-900 shadow-inner sticky top-0 z-10 overflow-x-auto whitespace-nowrap py-3">
+            <div class="max-w-4xl mx-auto px-4 flex space-x-4">
+                <!-- Links con hover en Rojo -->
+                <a href="#desayunos" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Desayunos</a>
+                <a href="#platos-fuertes" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Platos Fuertes</a>
+                <a href="#vegetarianos" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Vegetarianos</a>
+                <a href="#bebidas" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Bebidas</a>
+            </div>
+        </nav>
+
+        <!-- Contenido Principal del Menú -->
+        <main class="max-w-4xl mx-auto p-4 md:p-8">
+            <!-- Título principal movido aquí para mantener la información del restaurante -->
+            <div class="text-center mb-8 pt-4">
+                <!-- Título principal en blanco -->
+                <h1 class="text-4xl font-extrabold text-white tracking-tight">El Rincón Del Sabor</h1>
+                <p class="text-lg text-gray-400 mt-1">Menú Completo</p>
+            </div>
+
+            <!-- Contenedor del menú con fondo gris muy oscuro para contraste -->
+            <div id="menu-container" class="space-y-12 bg-gray-950 p-4 md:p-8 rounded-xl shadow-2xl shadow-gray-800">
+                <!-- Secciones de comida y bebida se renderizarán aquí -->
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- 1. Definición de Datos ---
+
+        const foodItems = [
+            // 9 Desayunos
+            { name: "Chilaquiles Rojos", price: "120.00", ingredients: "Totopos, salsa roja, crema, queso, cebolla", section: "Desayunos", category: "desayunos" },
+            { name: "Huevos Rancheros", price: "95.00", ingredients: "Dos huevos fritos, tortillas de maíz, salsa ranchera, frijoles", section: "Desayunos", category: "desayunos" },
+            { name: "Omelette de Verduras", price: "110.00", ingredients: "Huevo, espinacas, champiñones, queso de cabra", section: "Desayunos", category: "desayunos" },
+            { name: "Hot Cakes Clásicos", price: "80.00", ingredients: "Tres hot cakes, jarabe de maple, mantequilla", section: "Desayunos", category: "desayunos" },
+            { name: "Tostada de Aguacate", price: "85.00", ingredients: "Pan tostado integral, aguacate, huevo pochado", section: "Desayunos", category: "desayunos" },
+            { name: "Fruta con Yogurt", price: "75.00", ingredients: "Fruta de temporada, yogurt natural, granola y miel", section: "Desayunos", category: "desayunos" },
+            { name: "Molletes Dulces", price: "70.00", ingredients: "Pan dulce, queso crema, espolvoreado con canela y azúcar", section: "Desayunos", category: "desayunos" },
+            { name: "Burrito de Huevo", price: "105.00", ingredients: "Huevo revuelto, tocino, papa y queso en tortilla de harina", section: "Desayunos", category: "desayunos" },
+            { name: "Jugo Verde y Detox", price: "65.00", ingredients: "Espinaca, apio, piña, naranja y jengibre", section: "Desayunos", category: "desayunos" },
+
+            // 12 Platos Fuertes (Main Dishes)
+            { name: "Arrachera a la Plancha", price: "280.00", ingredients: "Corte de arrachera, guacamole, cebollitas cambray", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Salmón con Mantequilla y Hierbas", price: "320.00", ingredients: "Salmón a la parrilla, mantequilla de hierbas, espárragos", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Pechuga de Pollo Rellena", price: "210.00", ingredients: "Pechuga rellena de jamón y queso, bañada en salsa cremosa", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Tacos de Pescado Ensenada", price: "190.00", ingredients: "Pescado frito en tempura, col, crema de chipotle", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Hamburguesa Clásica", price: "180.00", ingredients: "Carne de res (200g), lechuga, tomate, queso, papas fritas", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Sopa Azteca", price: "90.00", ingredients: "Caldo de pollo, tortilla frita, aguacate, crema, queso, chile pasilla", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Enchiladas Suizas", price: "170.00", ingredients: "Enchiladas de pollo en salsa verde gratinadas con queso", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Corte Rib Eye (300g)", price: "450.00", ingredients: "Rib Eye premium, sazonado con sal de mar, papa al horno", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Pasta Alfredo con Camarones", price: "240.00", ingredients: "Fettuccine en salsa cremosa Alfredo con camarones", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Milanesa de Res Empanizada", price: "195.00", ingredients: "Milanesa de res, puré de papa, ensalada de la casa", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Quesadillas de Huitlacoche", price: "160.00", ingredients: "Tortillas de maíz, huitlacoche, queso Oaxaca, crema", section: "Platos Fuertes", category: "platos-fuertes" },
+            { name: "Ceviche de Camarón", price: "230.00", ingredients: "Camarón cocido en jugo de limón, tomate, cebolla, cilantro", section: "Platos Fuertes", category: "platos-fuertes" },
+
+            // 9 Platos Vegetarianos
+            { name: "Lasaña de Vegetales", price: "185.00", ingredients: "Pasta, calabacín, berenjena, salsa de tomate y queso mozzarella", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Bowl de Quinoa y Aguacate", price: "165.00", ingredients: "Quinoa, frijoles negros, maíz, aguacate, aderezo de lima", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Tacos de Jamaica", price: "150.00", ingredients: "Flor de jamaica guisada, tortillas de maíz, rábanos", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Curry de Garbanzos y Espinacas", price: "175.00", ingredients: "Curry indio de garbanzos, espinacas, arroz basmati", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Ensalada Caprese Grande", price: "140.00", ingredients: "Mozzarella fresca, tomate, albahaca, reducción balsámica", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Pimientos Rellenos de Arroz", price: "160.00", ingredients: "Pimientos morrones rellenos de arroz y especias", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Sándwich de Falafel", price: "155.00", ingredients: "Falafel, pan pita, salsa tahini, vegetales frescos", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Crepas de Champiñones", price: "145.00", ingredients: "Crepas rellenas de champiñones en salsa cremosa", section: "Platos Vegetarianos", category: "vegetarianos" },
+            { name: "Tofu Scramble Estilo Mexicano", price: "135.00", ingredients: "Tofu revuelto, tomate, cebolla, chile jalapeño", section: "Platos Vegetarianos", category: "vegetarianos" },
+        ];
+
+        const drinkSections = [
+            {
+                name: "Bebidas Calientes", category: "bebidas", id: "bebidas-calientes", imagePath: "Bebidas Calientes", items: [
+                    { name: "Té Negro", price: "45.00", description: "Infusión de té negro clásico." },
+                    { name: "Té de Manzanilla", price: "45.00", description: "Infusión relajante de manzanilla." },
+                    { name: "Chocolate Caliente", price: "60.00", description: "Chocolate de mesa, caliente y espumoso." },
+                    { name: "Infusión de Frutos Rojos", price: "50.00", description: "Mezcla de frutos rojos naturales." },
+                    { name: "Atole de Vainilla", price: "55.00", description: "Bebida tradicional mexicana con vainilla." },
+                ]
+            },
+            {
+                name: "Café", category: "bebidas", id: "cafe", imagePath: "Café", items: [
+                    { name: "Café Americano", price: "50.00", description: "Café de grano selecto, recién hecho." },
+                ]
+            },
+            {
+                name: "Jugos y Aguas Frescas", category: "bebidas", id: "jugos", imagePath: "Jugos y Aguas", items: [
+                    { name: "Jugo de Naranja", price: "60.00", description: "Jugo natural de naranja (400ml)." },
+                    { name: "Jugo de Piña", price: "60.00", description: "Jugo natural de piña (400ml)." },
+                    { name: "Jugo de Zanahoria", price: "60.00", description: "Jugo natural de zanahoria (400ml)." },
+                    { name: "Limonada Clásica", price: "55.00", description: "Refrescante limonada natural." },
+                    { name: "Agua Fresca de Jamaica", price: "55.00", description: "Agua de flor de jamaica." },
+                ]
+            },
+            {
+                name: "Vinos (Copa)", category: "bebidas", id: "vinos", imagePath: "Vinos", items: [
+                    { name: "Vino Tinto (Merlot)", price: "180.00", description: "Copa de vino tinto Merlot." },
+                    { name: "Vino Blanco (Sauvignon Blanc)", price: "170.00", description: "Copa de vino blanco Sauvignon Blanc." },
+                    { name: "Vino Rosado (Provenzal)", price: "175.00", description: "Copa de vino rosado seco." },
+                    { name: "Cava Brut", price: "190.00", description: "Copa de Cava (espumoso)." },
+                ]
+            },
+            {
+                name: "Cervezas", category: "bebidas", id: "cervezas", imagePath: "Cervezas", items: [
+                    { name: "Cerveza Artesanal Clara", price: "90.00", description: "Cerveza pálida con notas cítricas." },
+                    { name: "Cerveza Artesanal Oscura", price: "90.00", description: "Cerveza oscura con notas de café y chocolate." },
+                    { name: "Cerveza Lager Nacional", price: "65.00", description: "Cerveza nacional de estilo Lager." },
+                    { name: "Cerveza Stout Importada", price: "110.00", description: "Cerveza Stout con cuerpo completo." },
+                    { name: "Cerveza IPA Local", price: "95.00", description: "IPA con amargor balanceado." },
+                    { name: "Cerveza de Trigo", price: "80.00", description: "Cerveza estilo Weizen/Trigo." },
+                    { name: "Michelada Clásica", price: "75.00", description: "Cerveza con limón, sal y salsas." },
+                    { name: "Clara con Limón", price: "65.00", description: "Cerveza clara con jugo de limón." },
+                ]
+            },
+            {
+                name: "Shots", category: "bebidas", id: "shots", imagePath: "Shots", items: [
+                    { name: "Tequila Reposado", price: "120.00", description: "Shot de Tequila Reposado." },
+                    { name: "Mezcal Añejo", price: "150.00", description: "Shot de Mezcal Añejo ahumado." },
+                    { name: "Vodka Premium", price: "110.00", description: "Shot de Vodka importado." },
+                    { name: "Jägermeister", price: "100.00", description: "Shot de Jägermeister frío." },
+                ]
+            },
+            {
+                name: "Botellas de Alcohol", category: "bebidas", id: "botellas-alcohol", imagePath: "Botellas de Lujo", items: [
+                    { name: "Tequila Añejo", price: "1,500.00", description: "Botella de Tequila Añejo (750ml)." },
+                    { name: "Whisky Escocés", price: "2,200.00", description: "Botella de Whisky Escocés (750ml)." },
+                    { name: "Ron Añejo", price: "1,300.00", description: "Botella de Ron Añejo (750ml)." },
+                    { name: "Ginebra Premium", price: "1,800.00", description: "Botella de Ginebra London Dry (750ml)." },
+                ]
+            },
+        ];
+
+        // --- 2. Funciones de Renderizado ---
+
+        /**
+         * Crea el bloque HTML lineal para un solo platillo (comida).
+         * @param {Object} item - Objeto del platillo.
+         * @returns {string} HTML del platillo.
+         */
+        function createFoodCard(item) {
+            // Genera una URL de imagen placeholder única basada en el nombre del platillo
+            const placeholderText = item.name.length > 15 ? item.name.substring(0, 12) + '...' : item.name;
+            // Placeholder en color Rojo Vibrante
+            const imageUrl = `https://placehold.co/120x120/E53935/ffffff?text=${encodeURIComponent(placeholderText.replace(/\s/g, '+'))}`;
+
+            return `
+                <div class="item-line group">
+                    <!-- Contenido del texto (Nombre, Ingredientes, Precio) -->
+                    <div class="text-content">
+                        <!-- Nombre del platillo en Blanco y hover en Rojo Vibrante -->
+                        <h3 class="text-xl md:text-2xl font-bold text-white group-hover:text-[#E53935] transition-colors leading-tight">${item.name}</h3>
+                        
+                        <!-- Contenedor para Ingredientes y Precio (Flex para alinear al final) -->
+                        <div class="flex justify-between items-center mt-1">
+                            <!-- Ingredientes y precio en Gris Claro/Gris 400 -->
+                            <p class="text-sm md:text-base text-gray-400 italic max-w-full">${item.ingredients}</p>
+                            <!-- Precio al final, más pequeño y gris (mismo color que ingredientes) -->
+                            <span class="text-lg font-bold text-gray-400 ml-4 flex-shrink-0 leading-tight">$${item.price}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Imagen (alineada a la derecha) -->
+                    <div class="image-container w-24 h-24 md:w-28 md:h-28">
+                        <img class="w-full h-full object-cover rounded-lg shadow-md transition transform group-hover:scale-105 duration-300" 
+                             src="${imageUrl}" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/120x120/E53935/ffffff?text=Platillo';" 
+                             alt="Imagen de ${item.name}">
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Crea el bloque HTML para una subsección de bebidas, manteniendo el diseño de imagen por sección.
+         * @param {Object} section - Objeto de la subsección de bebidas.
+         * @returns {string} HTML de la subsección de bebidas.
+         */
+        function createDrinkSection(section) {
+            // Genera una URL de imagen placeholder para la sección, ahora en Rojo Vibrante
+            const imageUrl = `https://placehold.co/600x400/E53935/ffffff?text=${encodeURIComponent(section.imagePath.replace(/\s/g, '+'))}`;
+            
+            // Renderiza los items de la subsección
+            const drinkItemsHtml = section.items.map(item => `
+                <li class="flex justify-between items-center border-b border-dashed border-gray-800 py-3 transition-colors hover:bg-gray-800 rounded-sm px-2 -mx-2">
+                    <div class="flex-1 pr-4">
+                        <!-- Nombre del platillo en Blanco -->
+                        <p class="text-lg font-semibold text-white">${item.name}</p>
+                        <!-- Descripción en Gris Claro -->
+                        <p class="text-sm text-gray-400 italic">${item.description}</p>
+                    </div>
+                    <!-- Precio al final, más pequeño y Gris Claro -->
+                    <span class="text-base md:text-lg font-bold text-gray-400 flex-shrink-0">$${item.price}</span>
+                </li>
+            `).join('');
+
+            return `
+                <div class="mb-8">
+                    <!-- Imagen de la sección de bebida -->
+                    <div class="w-full h-48 md:h-64 overflow-hidden rounded-xl shadow-lg mb-4">
+                        <img class="w-full h-full object-cover object-center" 
+                             src="${imageUrl}" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x400/E53935/ffffff?text=Bebida';"
+                             alt="Imagen de ${section.name}">
+                    </div>
+
+                    <!-- Título de la subsección en Blanco -->
+                    <h3 class="text-2xl font-bold text-white mb-4 pb-2 border-b border-gray-700">${section.name}</h3>
+                    <ul class="divide-y divide-gray-800">
+                        ${drinkItemsHtml}
+                    </ul>
+                </div>
+            `;
+        }
+
+        /**
+         * Renderiza una sección completa del menú (ej. Desayunos).
+         * @param {string} title - Título principal de la sección.
+         * @param {string} id - ID para la navegación ancla.
+         * @param {Array<Object>} items - Array de platillos o subsecciones.
+         * @param {boolean} isDrinks - Indica si es la sección de bebidas.
+         * @returns {string} HTML completo de la sección.
+         */
+        function renderSection(title, id, items, isDrinks = false) {
+            let contentHtml = '';
+            
+            if (isDrinks) {
+                // Para Bebidas, renderiza cada subsección
+                contentHtml = items.map(item => createDrinkSection(item)).join('');
+            } else {
+                // Para Comida, renderiza los platillos linealmente
+                contentHtml = items.map(item => createFoodCard(item)).join('');
+                // Envuelve los platillos en un contenedor para el borde completo
+                contentHtml = `<div class="divide-y divide-gray-800">${contentHtml}</div>`;
+            }
+
+            return `
+                <section id="${id}" class="pt-10 mb-8">
+                    <!-- Título de sección en Blanco con borde inferior en Rojo Vibrante -->
+                    <h2 class="text-3xl font-extrabold text-white mb-8 text-center border-b-2 border-[#E53935] pb-3 tracking-wide">${title}</h2>
+                    ${contentHtml}
+                    <div class="section-divider mt-10"></div>
+                </section>
+            `;
+        }
+
+        /**
+         * Función principal para construir y mostrar el menú.
+         */
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            let menuHtml = '';
+
+            // 1. Secciones de Comida (Títulos limpios)
+            const sections = [
+                { title: "Desayunos", id: "desayunos", items: foodItems.filter(i => i.category === 'desayunos') },
+                { title: "Platos Fuertes", id: "platos-fuertes", items: foodItems.filter(i => i.category === 'platos-fuertes') },
+                { title: "Platos Vegetarianos", id: "vegetarianos", items: foodItems.filter(i => i.category === 'vegetarianos') },
+            ];
+
+            sections.forEach(section => {
+                menuHtml += renderSection(section.title, section.id, section.items);
+            });
+
+            // 2. Sección de Bebidas (El título "Bebidas" ya no incluye conteo)
+            menuHtml += renderSection("Bebidas", "bebidas", drinkSections, true);
+            
+            container.innerHTML = menuHtml;
+        }
+
+        // --- 3. Inicialización ---
+        window.onload = renderMenu;
+    </script>
+</body>
+</html>

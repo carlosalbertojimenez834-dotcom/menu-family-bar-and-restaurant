@@ -4,33 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Restaurant Menu</title>
-    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Carga de la fuente Inter --><style>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font --><style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            /* Fondo principal: Negro */
+            /* Main background: Black */
             background-color: #000000; 
-            color: #ffffff; /* Texto general en blanco */
+            color: #ffffff; /* General text in white */
         }
         .section-divider {
             height: 1px;
-            /* Divisor en gris claro */
+            /* Light grey divider */
             background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(229, 57, 53, 0.5), rgba(255,255,255,0.1));
         }
-        /* Estilos para la barra de navegación superior */
-        .nav-link {
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        /* Estilos para la barra de navegación de iconos inferior (Nueva) */
+        /* Styles for the bottom icon navigation bar (New) */
         .nav-icon-link {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #9CA3AF; /* Gris 400 por defecto */
+            color: #9CA3AF; /* Default Grey 400 */
             width: 25%;
             height: 100%;
             transition: color 0.2s ease, transform 0.2s ease;
@@ -40,30 +34,30 @@
         }
 
         .nav-icon-link:hover, .nav-icon-link:focus {
-            color: #E53935; /* Rojo Vibrante en hover/focus */
+            color: #E53935; /* Vibrant Red on hover/focus */
             transform: scale(1.05);
         }
         
-        /* Se eliminaron los estilos SVG, ya que ahora usamos emojis */
+        /* SVG styles removed as we now use emojis */
         
         .item-line {
             display: flex;
-            align-items: flex-start; /* Alinea los elementos al inicio de la línea */
+            align-items: flex-start; /* Align elements to the start of the line */
             padding: 1.5rem 0;
-            /* Borde inferior en gris muy oscuro para un contraste sutil */
+            /* Very dark grey bottom border for subtle contrast */
             border-bottom: 1px dashed rgba(255,255,255,0.1);
-            gap: 1rem; /* Espacio entre texto e imagen */
+            gap: 1rem; /* Space between text and image */
         }
         .item-line:last-child {
             border-bottom: none;
         }
-        /* Asegura que el contenedor de texto ocupe el espacio restante y no se encoja */
+        /* Ensures the text container occupies the remaining space and does not shrink */
         .item-line .text-content {
             flex-grow: 1;
             flex-shrink: 1; 
             min-width: 0; 
         }
-        /* Asegura que la imagen mantenga su tamaño fijo y no se encoja */
+        /* Ensures the image maintains its fixed size and does not shrink */
         .item-line .image-container {
             flex-shrink: 0; 
         }
@@ -71,57 +65,79 @@
 </head>
 <body class="antialiased text-gray-100">
 
-    <!-- BOTÓN DE ENLACE FIJO A LA PÁGINA PRINCIPAL (ARRIBA A LA DERECHA) --><a href="https://carlosalbertojimenez834-dotcom.github.io/family-bar-restaurant/" 
-       target="_blank" 
-       class="fixed top-4 right-4 z-20 bg-[#E53935] text-white font-bold py-2 px-4 rounded-full shadow-lg transition-transform duration-300 hover:scale-105 flex items-center space-x-2 md:top-6 md:right-6">
-        <!-- Icono de Casa (SVG) --><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-        </svg>
-        <!-- Texto "Main Page" para escritorio, "Home" para móvil --><span class="hidden sm:inline">Main Page</span>
-        <span class="sm:hidden">Home</span>
-    </a>
-
     <div id="app" class="min-h-screen">
 
-        <!-- Navegación de Anclaje Fija (BARRA SUPERIOR - visible en todos los tamaños) --><nav class="bg-gray-900 shadow-inner sticky top-0 z-10 overflow-x-auto whitespace-nowrap py-3">
-            <div class="max-w-4xl mx-auto px-4 flex space-x-4">
-                <!-- Enlaces con hover en Rojo --><a href="#breakfast" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Breakfast</a>
-                <a href="#main-dishes" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Main Dishes</a>
-                <a href="#vegetarian" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Vegetarian</a>
-                <a href="#drinks" class="nav-link py-2 px-3 rounded-full text-sm font-medium text-gray-400 hover:bg-[#E53935] hover:text-white">Drinks</a>
+        <!-- Fixed Anchor Navigation (TOP BAR - NEW STRUCTURE with Hamburger Menu) -->
+        <nav class="bg-gray-900 shadow-inner sticky top-0 z-20 py-3">
+            <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+                
+                <!-- Main Page Button (Left Side) -->
+                <a id="main-page-button" href="https://carlosalbertojimenez834-dotcom.github.io/family-bar-restaurant/" 
+                   target="_blank" 
+                   class="bg-[#E53935] text-white font-bold py-2 px-4 rounded-full shadow-lg transition-transform duration-300 hover:scale-105 flex items-center space-x-2 text-sm">
+                    <!-- Home Icon (SVG) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                    <span>Main Page</span>
+                </a>
+
+                <!-- Hamburger Menu Button (Right Side) -->
+                <button id="hamburger-button" class="text-white hover:text-[#E53935] p-2 rounded-full transition duration-150 ease-in-out z-30">
+                    <!-- Menu Icon (☰) -->
+                    <svg id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <!-- Close Icon (X) -->
+                    <svg id="close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
         </nav>
+        
+        <!-- Hamburger Menu Overlay/Dropdown -->
+        <!-- Fixed position, starts hidden via -translate-y-full -->
+        <div id="menu-overlay" class="fixed top-16 left-0 right-0 h-auto max-h-[80vh] overflow-y-auto bg-gray-900 shadow-xl z-10 transition-transform duration-300 ease-out transform -translate-y-full">
+            <div class="max-w-4xl mx-auto px-4 py-4 space-y-2">
+                <!-- Menu Links -->
+                <a href="#breakfast" class="block py-3 px-3 rounded-lg text-lg font-medium text-gray-200 hover:bg-[#E53935] transition-colors" onclick="toggleMenu()">Breakfast</a>
+                <a href="#main-dishes" class="block py-3 px-3 rounded-lg text-lg font-medium text-gray-200 hover:bg-[#E53935] transition-colors" onclick="toggleMenu()">Main Dishes</a>
+                <a href="#vegetarian" class="block py-3 px-3 rounded-lg text-lg font-medium text-gray-200 hover:bg-[#E53935] transition-colors" onclick="toggleMenu()">Vegetarian</a>
+                <a href="#drinks" class="block py-3 px-3 rounded-lg text-lg font-medium text-gray-200 hover:bg-[#E53935] transition-colors" onclick="toggleMenu()">Drinks</a>
+            </div>
+        </div>
 
-        <!-- Contenido principal del menú (Se agregó pb-20 para padding móvil) --><main class="max-w-4xl mx-auto p-4 md:p-8 pb-20">
-            <!-- Título principal movido aquí para mantener la información del restaurante --><div class="text-center mb-8 pt-4">
-                <!-- Título principal en blanco --><h1 class="text-4xl font-extrabold text-white tracking-tight">El Rincón Del Sabor</h1>
+        <!-- Main menu content (pb-20 added for mobile padding) --><main class="max-w-4xl mx-auto p-4 md:p-8 pb-20">
+            <!-- Main title moved here to retain restaurant information --><div class="text-center mb-8 pt-4">
+                <!-- Main title in white --><h1 class="text-4xl font-extrabold text-white tracking-tight">Family Bar & Restaurant</h1>
                 <p class="text-lg text-gray-400 mt-1">Complete Menu (Canadian Location)</p>
             </div>
 
-            <!-- Contenedor del menú con fondo gris muy oscuro para contraste --><div id="menu-container" class="space-y-12 bg-gray-950 p-4 md:p-8 rounded-xl shadow-2xl shadow-gray-800">
-                <!-- Las secciones de comida y bebida se renderizarán aquí --></div>
+            <!-- Menu container with very dark gray background for contrast --><div id="menu-container" class="space-y-12 bg-gray-950 p-4 md:p-8 rounded-xl shadow-2xl shadow-gray-800">
+                <!-- Food and drink sections will be rendered here --></div>
 
         </main>
 
-        <!-- Barra de Navegación Inferior Fija (NUEVA - Pantallas Móviles/Pequeñas) --><nav class="fixed bottom-0 left-0 right-0 z-50 bg-gray-950/95 backdrop-blur-sm border-t border-gray-800 shadow-t-2xl md:hidden">
+        <!-- Fixed Bottom Navigation Bar (NEW - Mobile/Small Screens) --><nav class="fixed bottom-0 left-0 right-0 z-50 bg-gray-950/95 backdrop-blur-sm border-t border-gray-800 shadow-t-2xl md:hidden">
             <div class="flex justify-around items-center h-16 max-w-lg mx-auto">
                 
-                <!-- Enlace 1: Breakfast (Huevo Frito) --><a href="#breakfast" class="nav-icon-link">
+                <!-- Link 1: Breakfast (Fried Egg) --><a href="#breakfast" class="nav-icon-link">
                     <span class="text-3xl">🍳</span>
                     <span class="text-xs font-medium uppercase tracking-wider">Breakfast</span>
                 </a>
 
-                <!-- Enlace 2: Main Dishes (Plato con Tenedor y Cuchillo) --><a href="#main-dishes" class="nav-icon-link">
+                <!-- Link 2: Main Dishes (Plate with Fork and Knife) --><a href="#main-dishes" class="nav-icon-link">
                     <span class="text-3xl">🍽️</span>
                     <span class="text-xs font-medium uppercase tracking-wider">Main</span>
                 </a>
 
-                <!-- Enlace 3: Vegetarian (Zanahoria) --><a href="#vegetarian" class="nav-icon-link">
+                <!-- Link 3: Vegetarian (Carrot) --><a href="#vegetarian" class="nav-icon-link">
                     <span class="text-3xl">🥕</span>
                     <span class="text-xs font-medium uppercase tracking-wider">Veggie</span>
                 </a>
 
-                <!-- Enlace 4: Drinks (Copa de Cóctel) --><a href="#drinks" class="nav-icon-link">
+                <!-- Link 4: Drinks (Cocktail Glass) --><a href="#drinks" class="nav-icon-link">
                     <span class="text-3xl">🍸</span>
                     <span class="text-xs font-medium uppercase tracking-wider">Drinks</span>
                 </a>
@@ -261,25 +277,25 @@
         function createFoodCard(item) {
             // Generates a unique placeholder image URL based on the dish name
             const placeholderText = item.name.length > 15 ? item.name.substring(0, 12) + '...' : item.name;
-            // Placeholder en Rojo Vibrante
+            // Placeholder in Vibrant Red
             const defaultImageUrl = `https://placehold.co/120x120/E53935/ffffff?text=${encodeURIComponent(placeholderText.replace(/\s/g, '+'))}`;
             
-            // Usa la URL proporcionada si está disponible, de lo contrario, usa el placeholder generado
+            // Use the provided URL if available, otherwise use the generated placeholder
             const effectiveImageUrl = item.imageUrl || defaultImageUrl;
 
 
             return `
                 <div class="item-line group">
-                    <!-- Contenido de Texto (Nombre, Ingredientes, Precio) --><div class="text-content">
-                        <!-- Nombre del plato en blanco, hover en Rojo Vibrante --><h3 class="text-xl md:text-2xl font-bold text-white group-hover:text-[#E53935] transition-colors leading-tight">${item.name}</h3>
+                    <!-- Text Content (Name, Ingredients, Price) --><div class="text-content">
+                        <!-- Dish name in white, hover in Vibrant Red --><h3 class="text-xl md:text-2xl font-bold text-white group-hover:text-[#E53935] transition-colors leading-tight">${item.name}</h3>
                         
-                        <!-- Contenedor para Ingredientes y Precio --><div class="flex justify-between items-center mt-1">
-                            <!-- Ingredientes y Precio en Gris Claro/Gris 400 --><p class="text-sm md:text-base text-gray-400 italic max-w-full">${item.ingredients}</p>
-                            <!-- Precio al final, más pequeño y gris --><span class="text-lg font-bold text-gray-400 ml-4 flex-shrink-0 leading-tight">$${item.price}</span>
+                        <!-- Container for Ingredients and Price --><div class="flex justify-between items-center mt-1">
+                            <!-- Ingredients and Price in Light Gray/Gray 400 --><p class="text-sm md:text-base text-gray-400 italic max-w-full">${item.ingredients}</p>
+                            <!-- Price at the end, smaller and gray --><span class="text-lg font-bold text-gray-400 ml-4 flex-shrink-0 leading-tight">$${item.price}</span>
                         </div>
                     </div>
                     
-                    <!-- Imagen (alineada a la derecha) --><div class="image-container w-24 h-24 md:w-28 md:h-28">
+                    <!-- Image (aligned right) --><div class="image-container w-24 h-24 md:w-28 md:h-28">
                         <img class="w-full h-full object-cover rounded-lg shadow-md transition transform group-hover:scale-105 duration-300" 
                              src="${effectiveImageUrl}" 
                              onerror="this.onerror=null; this.src='https://placehold.co/120x120/E53935/ffffff?text=Dish';" 
@@ -311,23 +327,23 @@
             const drinkItemsHtml = section.items.map(item => `
                 <li class="flex justify-between items-center border-b border-dashed border-gray-800 py-3 transition-colors hover:bg-gray-800 rounded-sm px-2 -mx-2">
                     <div class="flex-1 pr-4">
-                        <!-- Nombre de la bebida en Blanco --><p class="text-lg font-semibold text-white">${item.name}</p>
-                        <!-- Descripción en Gris Claro --><p class="text-sm text-gray-400 italic">${item.description || 'Standard Beverage.'}</p>
+                        <!-- Drink name in White --><p class="text-lg font-semibold text-white">${item.name}</p>
+                        <!-- Description in Light Gray --><p class="text-sm text-gray-400 italic">${item.description || 'Standard Beverage.'}</p>
                     </div>
-                    <!-- Precio al final, más pequeño y Gris Claro --><span class="text-base md:text-lg font-bold text-gray-400 flex-shrink-0">$${item.price}</span>
+                    <!-- Price at the end, smaller and Light Gray --><span class="text-base md:text-lg font-bold text-gray-400 flex-shrink-0">$${item.price}</span>
                 </li>
             `).join('');
 
             return `
                 <div class="mb-8" id="${section.id}">
-                    <!-- Imagen de la subsección de bebidas --><div class="w-full h-48 md:h-64 overflow-hidden rounded-xl shadow-lg mb-4">
+                    <!-- Drink subsection image --><div class="w-full h-48 md:h-64 overflow-hidden rounded-xl shadow-lg mb-4">
                         <img class="w-full h-full object-cover object-center" 
                              src="${effectiveImageUrl}" 
                              onerror="this.onerror=null; this.src='https://placehold.co/600x400/E53935/ffffff?text=Drink Placeholder';"
                              alt="Image of ${section.name}">
                     </div>
 
-                    <!-- Título de la subsección en Blanco --><h3 class="text-2xl font-bold text-white mb-4 pb-2 border-b border-gray-700">${section.name}</h3>
+                    <!-- Subsection title in White --><h3 class="text-2xl font-bold text-white mb-4 pb-2 border-b border-gray-700">${section.name}</h3>
                     <ul class="divide-y divide-gray-800">
                         ${drinkItemsHtml}
                     </ul>
@@ -358,7 +374,7 @@
 
             return `
                 <section id="${id}" class="pt-10 mb-8">
-                    <!-- Título de la sección en Blanco con un borde inferior en Rojo Vibrante --><h2 class="text-3xl font-extrabold text-white mb-8 text-center border-b-2 border-[#E53935] pb-3 tracking-wide">${title}</h2>
+                    <!-- Section title in White with a Vibrant Red bottom border --><h2 class="text-3xl font-extrabold text-white mb-8 text-center border-b-2 border-[#E53935] pb-3 tracking-wide">${title}</h2>
                     ${contentHtml}
                     <div class="section-divider mt-10"></div>
                 </section>
@@ -372,7 +388,7 @@
             const container = document.getElementById('menu-container');
             let menuHtml = '';
 
-            // 1. Food Sections (Titles in English)
+            // 1. Food Sections
             const sections = [
                 { title: "Breakfast", id: "breakfast", items: foodItems.filter(i => i.category === 'breakfast') },
                 { title: "Main Dishes", id: "main-dishes", items: foodItems.filter(i => i.category === 'main-dishes') },
@@ -389,8 +405,37 @@
             container.innerHTML = menuHtml;
         }
 
-        // --- 3. Initialization ---
-        window.onload = renderMenu;
+        // --- 3. Menu Toggle Logic and Initialization ---
+        
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            const overlay = document.getElementById('menu-overlay');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            isMenuOpen = !isMenuOpen;
+
+            if (isMenuOpen) {
+                // Show menu: remove -translate-y-full, add translate-y-0
+                overlay.classList.remove('-translate-y-full');
+                overlay.classList.add('translate-y-0');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                // Hide menu: remove translate-y-0, add -translate-y-full
+                overlay.classList.remove('translate-y-0');
+                overlay.classList.add('-translate-y-full');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+        
+        window.onload = function() {
+            renderMenu();
+            // Attach toggle listener to the hamburger button
+            document.getElementById('hamburger-button').addEventListener('click', toggleMenu);
+        };
     </script>
 </body>
 </html>
